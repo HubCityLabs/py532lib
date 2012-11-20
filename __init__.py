@@ -1,6 +1,4 @@
-py532lib
-========
-
+"""@package py532lib
 This package contains the useful stuff to communicate with a PN532 NFC chip in Python.
 
 @author:  DanyO <me@danyo.ca>
@@ -12,3 +10,5 @@ Built for Python3, using Quick2Wire's Python APIs for the RaspberryPI.
 Losely inspired from Adafruit's PN532 I2C library.
 
 Pull requests are welcomed.
+
+"""
