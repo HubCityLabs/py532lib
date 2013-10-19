@@ -118,6 +118,8 @@ class Pn532_i2c:
                 self.PN532.transaction(
                     writing(self.address, frame.to_tuple()))
 
+                logging.debug(frame.to_tuple())
+
                 logging.debug("send_command...........Sent.")
             except Exception as ex:
                 logging.debug(ex)
