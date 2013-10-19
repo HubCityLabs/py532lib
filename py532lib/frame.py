@@ -132,6 +132,10 @@ class Pn532Frame:
             return Pn532Frame(frame_type=PN532_FRAME_TYPE_ACK,
                               frame_identifier=0x00)
 
+        if Pn532Frame.is_error(response):
+            return Pn532Frame(frame_type=PN532_FRAME_TYPE_ERROR,
+                             frame_identifier=0x7F,data=b'\x81')
+
         response_length = response[0][PN532_FRAME_POSITION_LENGTH] + 1
         data = bytearray(
             response[0][PN532_FRAME_POSITION_DATA_START:PN532_FRAME_POSITION_DATA_START + response_length - 2])
@@ -163,5 +167,16 @@ class Pn532Frame:
             if response[0][PN532_FRAME_POSITION_LENGTH_CHECKSUM] == 0xFF:
                 if response[0][PN532_FRAME_POSITION_FRAME_IDENTIFIER] == 0x00:
                     return True
+
+        return False
+
+    @staticmethod
+    def is_error(response):
+        """ Checks if the response is an error frame."""
+        if response[0][PN532_FRAME_POSITION_LENGTH] == 0x01:
+            if response[0][PN532_FRAME_POSITION_LENGTH_CHECKSUM] == 0xFF:
+                if response[0][PN532_FRAME_POSITION_FRAME_IDENTIFIER] == 0x7F:
+                    if response[0][PN532_FRAME_POSITION_DATA_START] == 0x81:
+                        return True
 
         return False
